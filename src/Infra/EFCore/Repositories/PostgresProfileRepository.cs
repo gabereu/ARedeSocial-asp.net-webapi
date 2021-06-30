@@ -34,7 +34,6 @@ namespace dotnetServer.Infra.EFCore
         }
 
         public async Task<Profile> Find(Expression<Func<Profile, bool>> predicate){
-            // var profile = await _dataContext.Profiles.FindAsync(match.Id);
             var profile = await _dataContext.Profiles.SingleAsync(predicate);
 
             return profile;
