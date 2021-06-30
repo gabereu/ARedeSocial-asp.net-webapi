@@ -5,16 +5,19 @@ using dotnetServer.Application.Exceptions;
 using dotnetServer.Domain.Exceptions;
 using dotnetServer.Shared;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace dotnetServer.Application.Middlewares
 {
     public class ExceptionMeddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger _logger;
 
-        public ExceptionMeddleware(RequestDelegate next)
+        public ExceptionMeddleware(RequestDelegate next, ILogger<ExceptionMeddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context){
@@ -40,6 +43,7 @@ namespace dotnetServer.Application.Middlewares
         }
 
         public async Task HandleException(Exception exception, HttpContext context){
+            _logger.LogError(exception.Message);
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
             
