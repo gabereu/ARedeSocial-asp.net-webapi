@@ -43,7 +43,7 @@ namespace dotnetServer.Application.Middlewares
         }
 
         public async Task HandleException(Exception exception, HttpContext context){
-            _logger.LogError(exception.Message);
+            _logger.LogError(exception.ToString());
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
             

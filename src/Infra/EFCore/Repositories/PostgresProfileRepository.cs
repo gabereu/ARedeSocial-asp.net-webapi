@@ -1,8 +1,7 @@
 using dotnetServer.Domain.Models;
-using dotnetServer.Domain.DTOs;
+using dotnetServer.Domain.DTOs.ProfileDTO;
 using dotnetServer.Domain.Respositories;
 using System.Collections.Generic;
-using System.Linq;
 using BCryptNet = BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -20,7 +19,6 @@ namespace dotnetServer.Infra.EFCore
         }
 
         public async Task<Profile> Create(CreateProfileDTO profileDTO){
-            profileDTO.Password = BCryptNet.BCrypt.HashPassword(profileDTO.Password);
             var profile = (await _dataContext.Profiles.AddAsync(profileDTO.ToProfile())).Entity;
             _dataContext.SaveChanges();
 
@@ -34,7 +32,7 @@ namespace dotnetServer.Infra.EFCore
         }
 
         public async Task<Profile> Find(Expression<Func<Profile, bool>> predicate){
-            var profile = await _dataContext.Profiles.SingleAsync(predicate);
+            var profile = await _dataContext.Profiles.SingleOrDefaultAsync(predicate);
 
             return profile;
         }

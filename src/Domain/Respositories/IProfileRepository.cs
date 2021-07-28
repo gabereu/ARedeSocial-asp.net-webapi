@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using dotnetServer.Domain.Models;
-using dotnetServer.Domain.DTOs;
+using dotnetServer.Domain.DTOs.ProfileDTO;
 using System.Threading.Tasks;
 using System;
 using System.Linq.Expressions;
